@@ -1,3 +1,33 @@
+function loadMapAnnotations(mapview, places) {
+	
+	var annotations = [];
+	
+	for(var i=0, n=places.length; i<n; i++) {
+		
+		var annotation = {
+			latitude: places[i].Latitude,
+			longitude: places[i].Longitude,
+			title: places[i].Title,
+			subtitle: places[i].Address
+		};
+		
+		annotations.push(annotation);
+		
+	}
+	
+	mapview.annotations = annotations;
+	
+	mapview.region = {
+		latitude: annotations[0].latitude,
+		longitude: annotations[0].longitude,
+		latitudeDelta: 0.01,
+		longitudeDelta: 0.01
+	};
+	
+}
+
+/* PUBLIC */
+
 exports.MapWindow = function () {
 	
 	var window = Ti.UI.createWindow({
@@ -31,27 +61,33 @@ exports.MapWindow = function () {
 		});
 	}
 	
-	var annotation = Ti.Map.createAnnotation({
-		latitude: 51.47828,
-	    longitude: -3.18243
-	});
-	
 	var mapview = Ti.Map.createView({
-		region: {
-			latitude: 51.47828,
-			longitude: -3.18243,
-			latitudeDelta: 0.01,
-			longitudeDelta: 0.01			
-		},
 		animate:true,
     	regionFit:true,
     	width: 320,
-    	height: 400,
-    	annotations: [annotation]
+    	height: 400
 	});
 
 	window.add(toolbar);
 	window.add(mapview);
+	
+	loadButton.addEventListener('click', function (e) {
+		
+		var httpClient = Ti.Network.createHTTPClient();
+		
+		httpClient.open('GET', 'http://tinyurl.com/bot8ece');
+		
+		httpClient.onload = function() {
+			var data = JSON.parse(this.responseText);
+			var places = data.query.results.Result;
+			
+			loadMapAnnotations(mapview, places);
+			
+		}
+		
+		httpClient.send();
+		
+	});
 	
 	return window;
 	
