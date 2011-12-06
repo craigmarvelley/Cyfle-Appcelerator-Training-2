@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<script type="text/JavaScript">
+			function submitForm(){
+				var value = document.forms[0]["textfield"].value;
+			    Ti.App.fireEvent('formSubmitted', {
+			    	textfield: value
+			   	});
+			}
+		</script>
+	</head>
+	<body>
+		<form>
+			<input type="text" name="textfield" value="some text" />
+			<input type="button" title="Submit" value="Submit" onclick="submitForm();" />
+		</form>
+	</body>
+</html>

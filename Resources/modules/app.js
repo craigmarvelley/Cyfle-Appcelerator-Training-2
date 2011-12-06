@@ -35,7 +35,7 @@ exports.AppTabGroup = function () {
 	    window:tableWindow
 	});
 	
-	// Webview
+	// Remote Webview
 	var webviewWindow = new webviews.WebViewWindow();
 	var webviewsTab = Titanium.UI.createTab({  
 	    icon:'KS_nav_ui.png',
@@ -51,11 +51,20 @@ exports.AppTabGroup = function () {
 	    window:mapWindow
 	});
 	
+	// Remote Webview
+	var localWebviewWindow = new webviews.LocalWebViewWindow();
+	var localWebviewsTab = Titanium.UI.createTab({  
+	    icon:'KS_nav_ui.png',
+	    title:'WebViews 2',
+	    window:localWebviewWindow
+	});
+	
 	//  add tabs
 	tabGroup.addTab(formsTab);  
 	tabGroup.addTab(imagesTab);
 	tabGroup.addTab(tablesTab);
 	tabGroup.addTab(webviewsTab);
+	tabGroup.addTab(localWebviewsTab);
 	tabGroup.addTab(mapsTab);
 	
 	return tabGroup;

@@ -100,3 +100,35 @@ exports.WebViewWindow = function () {
 	return window;
 	
 }
+
+exports.LocalWebViewWindow = function () {
+	
+	var window = Ti.UI.createWindow({
+		title: 'Local webview'
+	});
+	
+	var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,'webview.html');
+	var html = file.read().text; 
+	
+	var webview = Ti.UI.createWebView({
+		html: html,
+		width: 'auto',
+		height: 'auto'
+	});
+	
+	window.add(webview);
+	
+	var formSubmittedFunction = function (e) {
+		var message = 'Textfield value is: ' + e.textfield;
+		alert(message);
+	};
+	
+	Ti.App.addEventListener('formSubmitted', formSubmittedFunction);
+	
+	window.addEventListener('close', function () {
+		Ti.App.removeEventListener('formSubmitted', formSubmittedFunction);
+	});
+	
+	return window;
+	
+}
