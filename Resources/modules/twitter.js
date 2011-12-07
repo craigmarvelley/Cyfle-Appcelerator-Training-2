@@ -6,7 +6,21 @@ exports.loadStoredTweets = function () {
 
 	var tweets = [];
 
-	// LOAD STORED TWEETS HERE
+	var sql = "SELECT * FROM tweets ORDER BY id DESC";
+	var resultSet = database.execute(sql);
+	
+	while(resultSet.isValidRow()) {
+		
+		// Get the tweet data and decode it
+		var data = resultSet.fieldByName('tweet');
+		var json = JSON.parse(data);
+		
+		// Add the tweet to our array
+		tweets.push(json);
+		
+		// Advance to the next result
+		resultSet.next();		
+	}
 	
 	return tweets;
 
