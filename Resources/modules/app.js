@@ -28,7 +28,7 @@ exports.AppTabGroup = function () {
 	});
 	
 	// Tables
-	var tableWindow = new tables.TableWindow();
+	var tableWindow = new tables.TableWindow(tabGroup);
 	var tablesTab = Titanium.UI.createTab({  
 	    icon:'KS_nav_ui.png',
 	    title:'Tables',

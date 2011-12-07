@@ -1,4 +1,16 @@
+var database = Ti.Database.install('twitter.sqlite', 'twitter');
+
 /* PUBLIC */
+
+exports.loadStoredTweets = function () {
+	
+	var tweets = [];
+
+	// LOAD TWEETS FROM DATABASE HERE
+	
+	return tweets;
+
+}
 
 exports.loadNewTweets = function (callback) {
 	
@@ -8,6 +20,8 @@ exports.loadNewTweets = function (callback) {
 	
 	httpClient.onload = function() {
 		var tweets = JSON.parse(this.responseText);
+		
+		// SAVE TWEETS TO DATABASE HERE
 		
 		callback.call(this, tweets);
 	}
