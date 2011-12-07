@@ -11,7 +11,8 @@ function loadNewTweetsIntoTableView(tableView) {
 			
 			var row = Ti.UI.createTableViewRow({
 				hasChild: true,
-				className: 'tweet'
+				className: 'tweet',
+				tweet: tweets[i]
 			});
 			
 			var image = Ti.UI.createImageView({

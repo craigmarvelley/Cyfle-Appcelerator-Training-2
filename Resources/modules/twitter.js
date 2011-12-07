@@ -1,21 +1,4 @@
-var database = Ti.Database.install('twitter.sqlite', 'twitter');
-
-
 /* PUBLIC */
-
-exports.loadStoredTweets = function () {
-
-	var resultSet = database.execute('SELECT * FROM tweets');
-	var tweets = [];
-	
-	while(resultSet.isValidRow()) {
-		tweets.push(resultSet.fieldByName('json'));
-		resultSet.next();		
-	}
-	
-	return tweets;
-
-}
 
 exports.loadNewTweets = function (callback) {
 	
@@ -25,6 +8,7 @@ exports.loadNewTweets = function (callback) {
 	
 	httpClient.onload = function() {
 		var tweets = JSON.parse(this.responseText);
+		
 		callback.call(this, tweets);
 	}
 	
