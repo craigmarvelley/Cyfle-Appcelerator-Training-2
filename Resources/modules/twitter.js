@@ -56,13 +56,32 @@ exports.loadNewTweets = function (callback) {
 	
 }
 
-exports.sendTweet = function (tweet) {
+exports.sendTweet = function (tweetText) {
 	
 	var httpClient = Ti.Network.createHTTPClient();
 		
 	httpClient.open(
 		'POST', 
-		'http://someurl'
+		'http://marvelley.com/post.php'
 	);
+	
+	httpClient.onerror = function (e) {
+		alert('Sorry, something went wrong');
+	};
+	
+	httpClient.onload = function (e) {
+		var response = this.responseText;
+		var responseObject = JSON.parse(response);
+		
+		var message = responseObject.message;
+		
+		alert('Your tweet was: ' + message);
+	};
+	
+	var request = {
+		tweet: tweetText
+	};
+	
+	httpClient.send(request);
 	
 }

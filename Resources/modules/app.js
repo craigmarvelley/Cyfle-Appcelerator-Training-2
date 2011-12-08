@@ -3,6 +3,19 @@ var forms = require('modules/windows/forms'),
 	tables = require('modules/windows/tables'),
 	webviews = require('modules/windows/webviews'),
 	maps = require('modules/windows/maps');
+	
+var locale = 'en';
+
+var translations = {
+	en: {
+		hello: 'Hey there!',
+		goodbye: 'So long!'
+	},
+	cy: {
+		hello: 'Hwyl!',
+		goodbye: 'Hwyl fawr!'
+	}
+};
 
 /* PUBLIC */
 
@@ -69,4 +82,18 @@ exports.AppTabGroup = function () {
 	
 	return tabGroup;
 		
+}
+
+exports._setLocale = function ( newLocale ) {
+	
+	locale = newLocale;
+	
+}
+
+exports._getString = function (key) {
+
+	var string = translations[locale][key];
+	
+	return string;
+	
 }

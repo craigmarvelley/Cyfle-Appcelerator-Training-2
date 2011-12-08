@@ -53,12 +53,6 @@ function createFormAndAddToWindow(window) {
 		height: 30
 	});
 	
-	window.add(label);
-	window.add(textfield);
-	window.add(addressLabel);
-	window.add(textarea);
-	window.add(button);
-	
 	button.addEventListener('click', function () {
 		
 		var message = 'Hello ' + textfield.value + '\nYour address is: ' + textarea.value;
@@ -71,6 +65,57 @@ function createFormAndAddToWindow(window) {
 		
 	});
 	
+	var englishBtn = Ti.UI.createButton({
+		top: 10,
+		title: 'Use English',
+		width: 100,
+		height: 30
+	});
+	
+	englishBtn.addEventListener('click', function () {
+		
+		// Call the function in the app.js module
+		app._setLocale('en');
+		
+	});
+	
+	var welshBtn = Ti.UI.createButton({
+		top: 10,
+		title: 'Use Welsh',
+		width: 100,
+		height: 30
+	});
+	
+	welshBtn.addEventListener('click', function () {
+		
+		// Call the function in the app.js module
+		app._setLocale('cy');
+		
+	});
+	
+	var sayHelloBtn = Ti.UI.createButton({
+		top: 10,
+		title: 'Say hello!',
+		width: 100,
+		height: 30
+	});
+	
+	sayHelloBtn.addEventListener('click', function () {
+		
+		var translatedHelloString = app._getString('hello');
+		alert(translatedHelloString);
+		
+	});
+	
+	window.add(label);
+	window.add(textfield);
+	window.add(addressLabel);
+	window.add(textarea);
+	window.add(button);
+	window.add(englishBtn);
+	window.add(welshBtn);
+	window.add(sayHelloBtn);
+
 }
 
 exports.FormWindow = function () {
