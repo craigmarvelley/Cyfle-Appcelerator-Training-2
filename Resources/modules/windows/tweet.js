@@ -32,18 +32,36 @@ exports.TweetWindow = function (tweet) {
 	window.add(textArea);
 	window.add(dateLabel);
 	
-	// Reply
-	var replyBtn = Ti.UI.createButton({
-		title: 'Reply'
-	});
-	
-	replyBtn.addEventListener('click', function () {
+	var openReplyWindow = function () {
 		var replyWindow = new exports.ReplyWindow();
-		
-		replyWindow.open();
-	});
+		replyWindow.open({
+			modal: true,
+			modalTransitionStyle: Ti.UI.iPhone.MODAL_TRANSITION_STYLE_COVER_VERTICAL,
+			modalStyle: Ti.UI.iPhone.MODAL_PRESENTATION_FULLSCREEN
+		});
+	};
 	
-	window.rightNavButton = replyBtn;
+	// Reply
+	if(Ti.Platform.name != 'android') {
+		var replyBtn = Ti.UI.createButton({
+			title: 'Reply'
+		});
+		
+		replyBtn.addEventListener('click', openReplyWindow);
+		
+		window.rightNavButton = replyBtn;
+	}
+	else {
+		window.activity.onCreateOptionsMenu = function (e) {
+	        var menu = e.menu;
+	        
+	        var replyItem = menu.add({
+	        	title: 'Reply'
+	        });
+	        
+	        replyItem.addEventListener('click', openReplyWindow);
+	    };
+	}
 	
 	return window;
 	
