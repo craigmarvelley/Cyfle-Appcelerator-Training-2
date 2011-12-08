@@ -1,3 +1,5 @@
+var twitter = require('modules/twitter');
+
 exports.TweetWindow = function (tweet) {
 	
 	var window = Ti.UI.createWindow({
@@ -72,18 +74,54 @@ exports.ReplyWindow = function () {
 	var window = Ti.UI.createWindow({
 		title: 'Reply',
 		modal: true,
-		backgroundColor: 'white'
+		backgroundColor: 'white',
+		layout: 'vertical'
 	});
 	
-	var closeBtn = Ti.UI.createButton({
+	var textarea = Ti.UI.createTextArea({
+		left: 10,
+		top: 10,
+		right: 10,
+		height: 100,
+		editable: true
+	});
+	
+	window.add(textarea);
+	
+	// Cancel button
+	var cancelBtn = Ti.UI.createButton({
 		title: 'Close'
 	});
 	
-	window.rightNavButton = closeBtn;
-	
-	closeBtn.addEventListener('click', function () {
+	cancelBtn.addEventListener('click', function () {
 		window.close();
 	});
+	
+	// Send button
+	var sendBtn = Ti.UI.createButton({
+		title: 'Send'
+	});
+	
+	sendBtn.addEventListener('click', function () {
+		var tweet = textarea.value 
+		twitter.sendTweet(tweet);
+	});
+	
+	// If we're not on Android, add the buttons to the nav bar
+	if(Ti.Platform.name != 'android') {
+		window.leftNavButton = cancelBtn;
+		window.rightNavButton = sendBtn;
+	}
+	else {
+		cancelBtn.width = 200;
+		cancelBtn.height = 50;
+		
+		sendBtn.width = 200;
+		sendBtn.height = 50;
+		
+		window.add(cancelBtn);
+		window.add(sendBtn);
+	}
 	
 	return window;
 	

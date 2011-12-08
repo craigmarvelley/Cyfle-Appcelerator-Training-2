@@ -55,3 +55,14 @@ exports.loadNewTweets = function (callback) {
 	httpClient.send();
 	
 }
+
+exports.sendTweet = function (tweet) {
+	
+	var httpClient = Ti.Network.createHTTPClient();
+		
+	httpClient.open(
+		'POST', 
+		'http://someurl'
+	);
+	
+}
