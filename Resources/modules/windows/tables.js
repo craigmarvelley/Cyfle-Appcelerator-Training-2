@@ -105,6 +105,7 @@ exports.TableWindow = function (tabGroup) {
 	
 	window.add(tableView);
 	
+	// On iOS, add edit and reload buttons to the nav bar
 	if(Ti.Platform.name != 'android') {
 		
 		// Editing
@@ -141,6 +142,21 @@ exports.TableWindow = function (tabGroup) {
 		});
 		
 		window.rightNavButton = reloadBtn;
+	}
+	// On Android, use the menu
+	else {
+		window.activity.onCreateOptionsMenu = function (e) {
+	        var menu = e.menu;
+	        
+	        // Reload option
+	        reloadItem = menu.add({
+	            title: 'Reload'
+	        });
+	        
+	        reloadItem.addEventListener('click', function (e) {
+	            loadNewTweetsIntoTableView(tableView);
+	        });
+	    };
 	}
 	
 	loadStoredTweetsIntoTableView(tableView);

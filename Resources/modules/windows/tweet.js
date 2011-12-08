@@ -32,6 +32,41 @@ exports.TweetWindow = function (tweet) {
 	window.add(textArea);
 	window.add(dateLabel);
 	
+	// Reply
+	var replyBtn = Ti.UI.createButton({
+		title: 'Reply'
+	});
+	
+	replyBtn.addEventListener('click', function () {
+		var replyWindow = new exports.ReplyWindow();
+		
+		replyWindow.open();
+	});
+	
+	window.rightNavButton = replyBtn;
+	
+	return window;
+	
+}
+
+exports.ReplyWindow = function () {
+	
+	var window = Ti.UI.createWindow({
+		title: 'Reply',
+		modal: true,
+		backgroundColor: 'white'
+	});
+	
+	var closeBtn = Ti.UI.createButton({
+		title: 'Close'
+	});
+	
+	window.rightNavButton = closeBtn;
+	
+	closeBtn.addEventListener('click', function () {
+		window.close();
+	});
+	
 	return window;
 	
 }
