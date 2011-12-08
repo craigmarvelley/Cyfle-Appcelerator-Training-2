@@ -56,13 +56,24 @@ function createTweetRow(tweet) {
 	var label = Ti.UI.createLabel({
 		top: 4,
 		left: 50,
-		width: 230,
+		width: 250,
 		height: 20,
 		text: tweet.text,
 		font: {
 			fontSize: 12
 		}
 	});
+	
+	var adjustForOrientation = function (e) {
+		if(e.orientation == Ti.UI.LANDSCAPE_LEFT || e.orientation == Ti.UI.LANDSCAPE_RIGHT) {
+			label.width = 380;
+		}
+		else {
+			label.width = 250;
+		}
+	};
+	
+	Titanium.Gesture.addEventListener('orientationchange', adjustForOrientation);
 	
 	row.add(image);
 	row.add(label);
@@ -76,14 +87,51 @@ function createTweetRow(tweet) {
 exports.TableWindow = function (tabGroup) {
 	
 	var window = Ti.UI.createWindow({
-		backgroundColor: '#FFF'
+		backgroundColor: '#FFF',
+		title: 'Tweets'
 	});
 	
-	var tableView = Ti.UI.createTableView();
+	// Allow the window to rotate to portrait and landscape orientations
+	window.orientationModes = [
+		Ti.UI.PORTRAIT,
+		Ti.UI.LANDSCAPE_LEFT,
+		Ti.UI.LANDSCAPE_RIGHT
+	];
+	
+	// Create the table and allow it to be edited (iOS only)
+	var tableView = Ti.UI.createTableView({
+		editable: true
+	});
 	
 	window.add(tableView);
 	
 	if(Ti.Platform.name != 'android') {
+		
+		// Editing
+		var editBtn = Ti.UI.createButton({
+			title: 'Edit'
+		});
+		
+		var isEditing = false;
+		
+		editBtn.addEventListener('click', function () {
+			if(isEditing) {
+				tableView.editing = false;
+				tableView.moving = false;
+				isEditing = false;
+				editBtn.title = 'Edit';
+			}
+			else {
+				tableView.editing = true;
+				tableView.moving = true;
+				isEditing = true;
+				editBtn.title = 'Stop';
+			}
+		});
+		
+		window.leftNavButton = editBtn;
+		
+		// Reloading
 		var reloadBtn = Ti.UI.createButton({
 			title: 'Reload'
 		});
